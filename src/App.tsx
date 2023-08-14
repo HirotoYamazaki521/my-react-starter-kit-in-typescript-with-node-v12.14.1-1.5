@@ -1,7 +1,15 @@
 import React from 'react';
 
-const App = () => {
-  return <div>React Starter Kit in TypeScript</div>;
+interface AppProps {
+  message: string;
+}
+
+type MyType ={
+  message: string;
+}
+
+const App = ({ message }: MyType) => {
+  return <div>{message}</div>;
 };
 
 export default App;
