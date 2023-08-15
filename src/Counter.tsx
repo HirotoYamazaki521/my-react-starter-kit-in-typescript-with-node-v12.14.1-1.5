@@ -1,4 +1,4 @@
-import React ,{ useRef, useEffect, useState } from 'react';
+import React ,{ useRef, useEffect, useState, RefObject } from 'react';
 
 const Counter: React.FC<{}> = () => {
   const initialValue: any = 0;
@@ -21,6 +21,17 @@ const Counter: React.FC<{}> = () => {
   useEffect(() => {
     renderTimes.current = renderTimes.current + 1;
   });
+  // nullの直後に!をつけることで、その直前のデータの方はnullではないということをTypeScriptに伝えることができる
+  // これをnon-null assertion operaterという
+  const ref = useRef<HTMLInputElement>(null!);
+  const focusInput = () => {
+    // ref.currentでinput要素を参照できる
+    // ifでnullチェックを行うことで、nullの場合はfocusを呼び出さないようにする
+    // const current = ref.current;
+    // if (current != null) current.focus();
+
+    ref.current.focus();
+  };
 
   return (
   <div>
@@ -28,6 +39,9 @@ const Counter: React.FC<{}> = () => {
     <button onClick={increment}>+1</button>
     <button onClick={decrement}>-1</button>
     <div>This component was re-rendered {renderTimes.current} times!</div>
+    {/* reactではrefの文字列は非推奨 */}
+    <input ref = {ref} type = "text " />
+    <button onClick={focusInput}>Click Me!</button>
   </ div>
   );
 }
